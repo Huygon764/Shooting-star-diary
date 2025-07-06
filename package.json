@@ -1,0 +1,30 @@
+{
+  "name": "shooting-star-diary",
+  "version": "1.0.0",
+  "description": "🌟 A beautiful diary application where you can share your thoughts with the stars",
+  "private": true,
+  "scripts": {
+    "dev": "./start-dev.sh",
+    "start": "npm run dev",
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "test-api": "curl http://localhost:5000/api/health",
+    "test-entries": "curl http://localhost:5000/api/entries",
+    "clean": "cd backend && rm -rf node_modules && cd ../frontend && rm -rf node_modules",
+    "reset": "npm run clean && npm run install-all"
+  },
+  "keywords": [
+    "diary",
+    "vue",
+    "express",
+    "mongodb",
+    "nodejs"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
