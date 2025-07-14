@@ -96,6 +96,4 @@ process.on('SIGINT', () => {
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
-  console.log(`📊 API documentation available at http://localhost:${PORT}/api`);
-  console.log(`🔍 Health check at http://localhost:${PORT}/api/health`);
 });
