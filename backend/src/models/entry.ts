@@ -24,7 +24,7 @@ const entrySchema = new Schema<IEntryDocument, IEntryModel>(
     },
     isPrivate: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   {
