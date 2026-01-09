@@ -1,13 +1,13 @@
-import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
-import { env } from '@/config';
-import { AUTH } from '@/config/constants';
+import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
+import { env } from "@/config";
+import { AUTH, ENDPOINTS } from "@/config/constants";
 
 // Create axios instance
 const apiClient = axios.create({
   baseURL: env.apiUrl,
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -34,17 +34,19 @@ apiClient.interceptors.response.use(
     return response.data;
   },
   (error: AxiosError) => {
-    // Handle 401 - Unauthorized
-    if (error.response?.status === 401) {
+    const requestUrl = error.config?.url || "";
+
+    // Skip redirect for login endpoint - let mutation handle it
+    const isLoginRequest = requestUrl.includes(ENDPOINTS.AUTH.LOGIN);
+
+    // Handle 401 - Unauthorized (but not for login)
+    if (error.response?.status === 401 && !isLoginRequest) {
       localStorage.removeItem(AUTH.TOKEN_KEY);
       localStorage.removeItem(AUTH.USER_KEY);
-
-      // Redirect to login (will be handled by router guard)
-      window.location.href = '/login';
+      window.location.href = "/login";
     }
 
     return Promise.reject(error);
   }
 );
-
 export default apiClient;
