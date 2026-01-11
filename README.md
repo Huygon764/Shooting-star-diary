@@ -1,168 +1,110 @@
-# ✨ Vườn Sao Băng (Shooting Star Diary) ✨
+# ✨ Vườn Sao Băng ✨
 
-Một ứng dụng nhật ký đẹp mắt và có hoạt ảnh, nơi người dùng có thể chia sẻ suy nghĩ và cảm xúc của mình với những vì sao. Được xây dựng bằng Vue.js 3, Express.js, MongoDB và tích hợp thông báo Telegram.
+Ứng dụng nhật ký với hiệu ứng sao băng, nơi gửi gắm tâm sự lên những vì sao.
 
-## 🛠️ Công Nghệ Sử Dụng
+## 🛠️ Tech Stack
 
-### Frontend
-- **Vue.js 3** với Composition API
-- **Vite** để phát triển và build nhanh chóng
-- **CSS3** với hoạt ảnh và chuyển tiếp tùy chỉnh
+| Layer | Technologies |
+|-------|--------------|
+| Frontend | Vue.js 3, Vite, TypeScript, Tailwind CSS, TanStack Query |
+| Backend | Node.js, Express.js, TypeScript, MongoDB, Mongoose |
+| DevOps | Docker, Nginx, Telegram Bot |
 
-### Backend
-- **Node.js** với ES Modules
-- **Express.js** web framework
-- **MongoDB** với Mongoose ODM
+## 🚀 Quick Start
 
-## 📦 Cài Đặt & Thiết Lập
+### Local Development
 
-### Yêu Cầu Hệ Thống
-- Node.js (phiên bản 16 trở lên)
-- MongoDB (local hoặc cloud)
-- Telegram Bot (tùy chọn, cho thông báo)
+**Backend:**
 
-### 1. Clone Repository
-```bash
-git clone <repository-url>
-cd shooting-star
-```
+    cd backend
+    yarn install
+    cp .env.example .env
+    yarn dev
 
-### 2. Thiết Lập Backend
-```bash
-cd backend
-npm install
-```
+**Frontend (terminal khác):**
 
-Tạo file `.env` từ ví dụ:
-```bash
-cp .env.example .env
-```
+    cd frontend
+    yarn install
+    cp .env.example .env
+    yarn dev
 
-Cấu hình các biến môi trường trong `.env`:
-```env
-# Cấu hình Server
-PORT=5000
-NODE_ENV=development
+- Backend: http://localhost:5000
+- Frontend: http://localhost:5173
 
-# Cấu hình Database
-MONGODB_URI=mongodb://localhost:27017/shooting-star-diary
+### Docker
 
-# Cấu hình JWT
-JWT_SECRET=your_super_secret_jwt_key_here
+    docker compose up -d --build
+    docker compose logs -f
 
-# Cấu hình CORS
-FRONTEND_URL=http://localhost:5174
+Truy cập: http://localhost:8080
 
-# Bảo mật
-BCRYPT_ROUNDS=12
+## ⚙️ Environment Variables
 
-# Cấu hình Telegram Bot (Tùy chọn)
-TELEGRAM_BOT_TOKEN=your_telegram_bot_token
-TELEGRAM_CHAT_ID=your_telegram_chat_id
-```
+### Backend (`backend/.env`)
 
-### 3. Thiết Lập Frontend
-```bash
-cd frontend
-npm install
-```
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `PORT` | Server port | `5000` |
+| `MONGODB_URI` | MongoDB connection | `mongodb://localhost:27017/shooting-star` |
+| `JWT_SECRET` | JWT secret key | `your_secret_key` |
+| `FRONTEND_URL` | CORS origin | `http://localhost:5173` |
+| `TELEGRAM_BOT_TOKEN` | Telegram bot token | `123456:ABC...` |
+| `TELEGRAM_CHAT_ID` | Admin chat ID | `123456789` |
 
-Tạo file `.env` từ ví dụ:
-```bash
-cp .env.example .env
-```
+### Frontend (`frontend/.env`)
 
-Cấu hình các biến môi trường trong `.env`:
-```env
-# Cấu hình API
-VITE_API_URL=http://localhost:5000/api
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `VITE_API_URL` | Backend API URL | `http://localhost:5000/api` |
+| `VITE_APP_NAME` | App name | `Vườn Sao Băng` |
 
-# Cấu hình App
-VITE_APP_NAME=Vườn Sao Băng
-VITE_APP_VERSION=2.0.0
-```
+## 🤖 Telegram Bot
 
-### 4. Khởi Chạy Ứng Dụng
+1. Tạo bot với [@BotFather](https://t.me/BotFather) → lấy `BOT_TOKEN`
+2. Gửi tin nhắn cho bot, truy cập `https://api.telegram.org/bot<TOKEN>/getUpdates` → lấy `CHAT_ID`
+3. Thêm vào `backend/.env`
 
-**Backend (Terminal 1):**
-```bash
-cd backend
-npm run dev
-```
+**Commands:**
+- `/register <username> <password>` - Tạo user
+- `/remove <username>` - Xóa user
+- `/list` - Danh sách users
 
-**Frontend (Terminal 2):**
-```bash
-cd frontend
-npm run dev
-```
+## 📁 Project Structure
 
-Ứng dụng sẽ có sẵn tại:
-- Frontend: http://localhost:5174
-- Backend API: http://localhost:5000
+    shooting-star/
+    ├── backend/
+    │   ├── src/
+    │   │   ├── config/        # Database, env config
+    │   │   ├── controllers/   # Route handlers
+    │   │   ├── middleware/    # Auth, validation
+    │   │   ├── models/        # Mongoose models
+    │   │   ├── routes/        # API routes
+    │   │   ├── services/      # Telegram services
+    │   │   └── utils/         # Helpers
+    │   ├── Dockerfile
+    │   └── package.json
+    ├── frontend/
+    │   ├── src/
+    │   │   ├── components/    # Vue components
+    │   │   ├── views/         # Pages
+    │   │   ├── stores/        # Pinia stores
+    │   │   ├── hooks/         # Composables
+    │   │   └── config/        # App config
+    │   ├── Dockerfile
+    │   └── package.json
+    ├── docker-compose.yml
+    └── README.md
 
-## 🎯 Cách Sử Dụng
+## 📝 Commands
 
-### Đăng Nhập
-1. Mở ứng dụng trong trình duyệt
-2. Nhập mật khẩu cho tài khoản, tự tạo tài khoản (Hiện đang để default 1 tài khoản là Bae)
-3. Tận hưởng giao diện sao lấp lánh!
+| Command | Description |
+|---------|-------------|
+| `yarn dev` | Start development server |
+| `yarn build` | Build for production |
+| `yarn typecheck` | Check TypeScript types |
+| `docker compose up -d` | Start with Docker |
+| `docker compose logs -f` | View logs |
 
-### Viết Nhật Ký
-1. Click vào vùng văn bản để thấy hiệu ứng lấp lánh
-2. Viết suy nghĩ và cảm xúc của bạn
-3. Click "Gửi lên những vì sao 🌟" để lưu
+---
 
-### Thông Báo Telegram
-Nếu được cấu hình, bạn sẽ nhận được tin nhắn Telegram đẹp mắt cho:
-- Đăng nhập của người dùng
-- Bài viết nhật ký mới (nếu không được đánh dấu riêng tư)
-
-## 🔧 API Endpoints
-
-### Hệ Thống
-- `GET /api/health` - Kiểm tra sức khỏe
-- `GET /api/` - Tài liệu API
-
-## 🔧 Thiết Lập Telegram Bot
-
-### 1. Tạo Telegram Bot
-1. Nhắn tin cho [@BotFather](https://t.me/BotFather) trên Telegram
-2. Gửi `/newbot` và làm theo hướng dẫn
-3. Lưu bot token bạn nhận được
-
-### 2. Lấy Chat ID
-1. Bắt đầu cuộc trò chuyện với bot của bạn
-2. Gửi bất kỳ tin nhắn nào cho bot
-3. Truy cập `https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates`
-4. Tìm chat ID trong phản hồi
-
-### 3. Cấu Hình Biến Môi Trường
-Thêm vào file `.env` backend:
-```env
-TELEGRAM_BOT_TOKEN=your_bot_token_here
-TELEGRAM_CHAT_ID=your_chat_id_here
-```
-## 🧪 Phát Triển
-
-### Cấu Trúc Dự Án
-```
-shooting-star/
-├── backend/                 # Express.js API server
-│   ├── config/             # Cấu hình database
-│   ├── controllers/        # API route handlers
-│   ├── middleware/         # Custom middleware
-│   ├── models/            # MongoDB/Mongoose models
-│   ├── routes/            # API routes
-│   ├── services/          # Business logic services
-│   └── utils/             # Utility functions
-├── frontend/               # Vue.js client application
-│   ├── src/
-│   │   ├── components/    # Vue components
-│   │   ├── config/        # Cấu hình app
-│   │   └── assets/        # Static assets
-└── README.md              # File này
-```
-
-## 📝 Giấy Phép
-
-Dự án này dành cho mục đích sử dụng cá nhân. Hãy tôn trọng ngôn ngữ Việt Nam và các yếu tố văn hóa.
+Made with 💜 for personal use
