@@ -3,6 +3,7 @@ import { message } from "telegraf/filters";
 import { env } from "../config/index.js";
 import { User } from "../models/index.js";
 import { formatDateVi } from "../utils/index.js";
+import type { RequestHandler } from "express";
 
 const MAX_RETRIES = 5;
 const RETRY_DELAY = 5000; // 5 seconds
@@ -203,6 +204,16 @@ class TelegramBot {
   }
 
   /**
+   * Get webhook callback for Express
+   */
+  webhookCallback(): RequestHandler {
+    if (!this.bot) {
+      return (_req, res) => res.status(200).send("Bot not configured");
+    }
+    return this.bot.webhookCallback("/webhook/telegram") as RequestHandler;
+  }
+
+  /**
    * Launch bot with retry logic
    */
   async launch(): Promise<void> {
@@ -214,16 +225,9 @@ class TelegramBot {
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
         if (env.telegramWebhookDomain) {
-          // Webhook mode
-          await this.bot.launch({
-            webhook: {
-              domain: env.telegramWebhookDomain,
-              port: env.port,
-            },
-          });
-          console.log(
-            `✅ Telegram bot started (webhook: ${env.telegramWebhookDomain})`
-          );
+          const webhookUrl = `${env.telegramWebhookDomain}/webhook/telegram`;
+          await this.bot.telegram.setWebhook(webhookUrl);
+          console.log(`✅ Telegram bot started (webhook: ${webhookUrl})`);
         } else {
           // Polling mode
           await this.bot.launch();
