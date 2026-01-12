@@ -6,13 +6,7 @@ services:
   # Frontend - Nginx serving Vue.js static files + Reverse Proxy + SSL
   # ==========================================================================
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-      args:
-        VITE_API_URL: /api
-        VITE_APP_NAME: "Vườn Sao Băng"
-        VITE_APP_VERSION: "2.0.0"
+    image: ghcr.io/huygon764/shooting-star-frontend:latest
     container_name: shooting-star-frontend
     restart: unless-stopped
     ports:
@@ -28,18 +22,9 @@ services:
         condition: service_healthy
     networks:
       - app-network
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: ghcr.io/huygon764/shooting-star-backend:latest
     container_name: shooting-star-backend
     restart: unless-stopped
     expose:
@@ -52,14 +37,14 @@ services:
     dns:
       - 8.8.8.8
       - 8.8.4.4
-    networks:
-      - app-network
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://localhost:5000/api/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 30s
+    networks:
+      - app-network
 
 networks:
   app-network:
