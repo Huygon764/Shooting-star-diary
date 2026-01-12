@@ -67,7 +67,7 @@ const handleLogin = () => {
         <!-- Footer -->
         <div class="mt-8">
           <p class="text-purple-500 text-sm italic">
-            💖 Chỉ có công chúa mới biết mật khẩu này thôi nha!!! 💖
+            💖 Clà sao bây thôi nha!!! 💖
           </p>
         </div>
       </div>
